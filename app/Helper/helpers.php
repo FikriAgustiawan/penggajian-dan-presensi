@@ -100,7 +100,7 @@ function hitungdenda($jam_terlambat)
         if ($menit >= 5 && $menit < 10) {
             $denda = 5000;
         } else if ($menit >= 10 && $menit < 15) {
-            $denda = 15000;
+            $denda = 10000;
         } else if ($menit >= 15) {
             $denda = 15000;
         } else {
