@@ -1,0 +1,2 @@
+# Atur file CSS menggunakan LF
+*.css text eol=lf
