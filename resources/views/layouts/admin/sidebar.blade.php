@@ -247,6 +247,9 @@
                   <a class="dropdown-item {{ request()->is(['konfigurasi/users']) ? 'active' : '' }}" href="/konfigurasi/users">
                     Users
                   </a>
+                  <a class="dropdown-item {{ request()->is(['konfigurasi/gaji']) ? 'active' : '' }}" href="/konfigurasi/gaji">
+                    Penggajian
+                  </a>
                 </div>
             </div>
             </div>

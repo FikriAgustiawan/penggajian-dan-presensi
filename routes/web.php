@@ -155,6 +155,14 @@ Route::group(['middleware' => ['role:administrator,user']], function (){
     Route::post('/cuti/{kode_cuti}/update', [CutiController::class, 'update']);
     Route::post('/cuti/{kode_cuti}/delete', [CutiController::class, 'delete']);
 
+    // Konfigurasi Gaji
+Route::get('/konfigurasi/gaji', [KonfigurasiController::class, 'konfigurasiGaji'])->name('konfigurasi.gaji');
+Route::get('/konfigurasi/gaji/create', [KonfigurasiController::class, 'createKonfigurasiGaji'])->name('konfigurasi.create_gaji');
+Route::post('/konfigurasi/gaji', [KonfigurasiController::class, 'storeKonfigurasiGaji'])->name('konfigurasi.store_gaji');
+Route::get('/konfigurasi/gaji/{id}/edit', [KonfigurasiController::class, 'editKonfigurasiGaji'])->name('konfigurasi.edit_gaji');
+Route::put('/konfigurasi/gaji/{id}', [KonfigurasiController::class, 'updateKonfigurasiGaji'])->name('konfigurasi.update_gaji');
+
+
 });
 
 Route::get('/createrolepermission', function(){

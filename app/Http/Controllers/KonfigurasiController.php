@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Setjamkerja;
+use App\Models\KonfigurasiGaji;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -191,4 +192,77 @@ class KonfigurasiController extends Controller
         }
         
     }
+
+    public function konfigurasiGaji()
+    {
+        $konfigurasiGaji = KonfigurasiGaji::first(); // Ambil konfigurasi gaji pertama
+        return view('konfigurasi.konfigurasi_gaji', compact('konfigurasiGaji'));
+    }
+
+    // Menampilkan form untuk menambah konfigurasi gaji
+    public function createKonfigurasiGaji()
+    {
+        // Cek jika sudah ada konfigurasi gaji
+        $konfigurasiGajiExist = KonfigurasiGaji::count();
+
+        if ($konfigurasiGajiExist > 0) {
+            return redirect()->route('konfigurasi.gaji')->with('warning', 'Konfigurasi gaji hanya bisa ditambahkan sekali. Anda bisa mengedit data yang ada.');
+        }
+
+        return view('konfigurasi.create_konfigurasi_gaji');
+    }
+
+    // Menyimpan konfigurasi gaji baru
+    public function storeKonfigurasiGaji(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'gaji_perhari' => 'required|numeric|min:0',
+        ]);
+
+        // Cek jika sudah ada konfigurasi gaji
+        if (KonfigurasiGaji::count() > 0) {
+            return redirect()->route('konfigurasi.gaji')->with('warning', 'Konfigurasi gaji hanya bisa ditambahkan sekali. Anda bisa mengedit data yang ada.');
+        }
+
+        // Simpan konfigurasi gaji baru
+        KonfigurasiGaji::create([
+            'gaji_perhari' => $request->gaji_perhari,
+        ]);
+
+        return redirect()->route('konfigurasi.gaji')->with('success', 'Konfigurasi Gaji berhasil ditambahkan.');
+    }
+
+    // Menampilkan form untuk mengedit konfigurasi gaji
+    public function editKonfigurasiGaji($id)
+    {
+        $konfigurasiGaji = KonfigurasiGaji::findOrFail($id);
+        return view('konfigurasi.edit_konfigurasi_gaji', compact('konfigurasiGaji'));
+    }
+
+    // Mengupdate konfigurasi gaji
+    public function updateKonfigurasiGaji(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'gaji_perhari' => 'required|numeric|min:0',
+        ]);
+
+        $konfigurasiGaji = KonfigurasiGaji::findOrFail($id);
+        $konfigurasiGaji->update([
+            'gaji_perhari' => $request->gaji_perhari,
+        ]);
+
+        return redirect()->route('konfigurasi.gaji')->with('success', 'Konfigurasi Gaji berhasil diperbarui.');
+    }
+
+    // Menghapus konfigurasi gaji
+    public function destroyKonfigurasiGaji($id)
+    {
+        $konfigurasiGaji = KonfigurasiGaji::findOrFail($id);
+        $konfigurasiGaji->delete();
+
+        return redirect()->route('konfigurasi.gaji')->with('success', 'Konfigurasi Gaji berhasil dihapus.');
+    }
+
 }
