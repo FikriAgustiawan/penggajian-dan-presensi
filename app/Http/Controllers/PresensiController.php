@@ -692,4 +692,13 @@ class PresensiController extends Controller
             return Redirect::back()->with(['warning' => 'Data Gagal Disimpan']);
         }
     }
+    public function getTotalPresensi($nik, $startDate, $endDate)
+{
+    return DB::table('presensi')
+        ->where('nik', $nik)
+        ->whereBetween('tgl_presensi', [$startDate, $endDate])
+        ->where('status', 'H') // 'H' untuk hadir
+        ->count();
+}
+
 }

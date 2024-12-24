@@ -258,7 +258,7 @@
                     url:'/konfigurasi/editjamkerja',
                     cache:false,
                     data:{
-                        _token:"{{ csrf_token(); }}",
+                        _token:"{{ csrf_token() }}",
                         kode_jam_kerja: kode_jam_kerja
                     },
                     success:function(respond){

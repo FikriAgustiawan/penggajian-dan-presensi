@@ -181,7 +181,7 @@
                     url:'/departemen/edit',
                     cache:false,
                     data:{
-                        _token:"{{ csrf_token(); }}",
+                        _token:"{{ csrf_token() }}",
                         kode_dept: kode_dept
                     },
                     success:function(respond){

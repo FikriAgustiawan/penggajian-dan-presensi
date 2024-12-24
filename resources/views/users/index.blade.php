@@ -222,7 +222,7 @@
                     url:'/konfigurasi/users/edit',
                     cache:false,
                     data:{
-                        _token:"{{ csrf_token(); }}",
+                        _token:"{{ csrf_token() }}",
                         id_user: id_user
                     },
                     success:function(respond){

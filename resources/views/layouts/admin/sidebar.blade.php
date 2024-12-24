@@ -219,9 +219,10 @@
                   <a class="dropdown-item {{ request()->is(['presensi/rekap']) ? 'active' : '' }}" href="/presensi/rekap">
                     Rekap Presensi
                   </a>
-                  <a class="dropdown-item {{ request()->is(['presensi/rekap']) ? 'active' : '' }}" href="/presensi/rekap">
-                    Penggajian Karyawan
-                  </a>
+                  <a class="dropdown-item {{ request()->is(['penggajian']) ? 'active' : '' }}" href="/penggajian">
+    Penggajian Karyawan
+</a>
+
                 </div>
             </div>
             </div>

@@ -11,6 +11,7 @@ use App\Http\Controllers\IzinsakitController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\IzincutiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PenggajianController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
@@ -111,7 +112,8 @@ Route::group(['middleware' => ['role:administrator|admin departemen,user']], fun
 // Route yang Bisa Diakses Oleh Administrator
 Route::group(['middleware' => ['role:administrator,user']], function (){
     
-
+    Route::get('/penggajian', [PenggajianController::class, 'index']);
+    Route::get('/penggajian/slip/{nik}/{bulan}/{tahun}', [PenggajianController::class, 'cetakSlip']);
     //Karyawan
     Route::post('/karyawan/store', [KaryawanController::class, 'store']);
     Route::post('/karyawan/edit', [KaryawanController::class, 'edit']);

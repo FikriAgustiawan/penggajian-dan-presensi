@@ -174,7 +174,7 @@
                     url:'/cuti/edit',
                     cache:false,
                     data:{
-                        _token:"{{ csrf_token(); }}",
+                        _token:"{{ csrf_token() }}",
                         kode_cuti: kode_cuti
                     },
                     success:function(respond){

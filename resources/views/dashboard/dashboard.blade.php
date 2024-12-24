@@ -274,7 +274,7 @@
                                     $jmlterlambat = hitungjamterlambat($jadwal_jam_masuk,$jam_presensi);
                                 @endphp
                                 <span class="danger">Terlambat {{ $jmlterlambat }}
-                                    ({{ $jmlterlambatdesimal }})
+                                    ({{ $jmlterlambat }})
                                 </span>
                                 @else
                                 <span style="color: green">Tepat Waktu</span>
