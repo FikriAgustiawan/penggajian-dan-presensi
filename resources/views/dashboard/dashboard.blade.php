@@ -72,12 +72,13 @@
                 </div>
                 <div class="item-menu text-center">
                     <div class="menu-icon">
-                        <a href="" class="orange" style="font-size: 40px;">
-                            <ion-icon name="location"></ion-icon>
+                        <a href="{{ route('penggajian.index') }}" class="orange" style="font-size: 40px;">
+                            <ion-icon name="wallet"></ion-icon>
                         </a>
+
                     </div>
                     <div class="menu-name">
-                        Lokasi
+                        Gaji
                     </div>
                 </div>
             </div>
