@@ -24,7 +24,7 @@
     }
 
     .form-container .form-control {
-        font-size: 16px;
+        font-size: 20px;
         padding: 10px;
         border: 1px solid #ced4da;
         border-radius: 8px;
@@ -33,6 +33,7 @@
         margin: 0 auto;
         text-align: center;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 3px;
     }
 
     .form-container .form-control:focus {

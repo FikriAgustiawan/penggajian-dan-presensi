@@ -90,8 +90,8 @@
         <img src="{{ asset('assets/img/logo_perusahaan.png') }}" alt="Logo Perusahaan" style="width: 100px; height: auto; margin-right: 15px;">
         <!-- Informasi teks di sisi kanan -->
     <div>
-        <h2 style="margin: 0; font-size: 20px;">MAJU BERKAH TEKNOLOGI</h2>
-        <p style="margin: 2px 0; font-size: 14px;">Ring-road Utara No 19, Jakarta</p>
+        <h2 style="margin: 0; font-size: 20px;">MAJU BERSAMA TEKNOLOGI</h2>
+        <p style="margin: 2px 0; font-size: 14px;">Jln. Perintis Kemerdekaan No.93F, Kecamatan Pulogadung, Jakarta Timur</p>
     </div>
 </div>
 
@@ -153,9 +153,9 @@
 
         <!-- Footer Section -->
         <div class="footer">
-            <p>Tangerang, {{ date('d F Y') }}</p>
-            <strong>Fikri</strong>
-            <span>(Manajer HR)</span>
+            <p>Jakarta, {{ date('d F Y') }}</p>
+            <strong>Riszky Riyadi</strong>
+            <span>(Kepala Toko)</span>
         </div>
     </div>
 </body>

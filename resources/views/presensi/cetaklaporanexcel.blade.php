@@ -105,7 +105,7 @@ td
                     PERIODE {{ strtoupper($namabulan[$bulan]) }} {{ $tahun }} <br>
                     PT. MAJU BERJAYA TEKNOLOGI <br>
                 </span>
-                <span><i></i></span>
+                <span><i>Jln. Perintis Kemerdekaan No.93F, Kecamatan Pulogadung, Jakarta Timur</i></span>
             </td>
         </tr>
     </table>
@@ -191,12 +191,12 @@ td
         </tr>
         <tr>
             <td style="text-align: center; vertical-align:bottom" height="100px">
-                <u>Fikri Agustiawan</u><br>
-                <i><b>HRD Manager</b></i>
+                <u>Teguh Fatorahman</u><br>
+                <i><b>Owner</b></i>
             </td>
             <td style="text-align: center; vertical-align:bottom">
-                <u>Risma Aprelia</u><br>
-                <i><b>Direktur</b></i>
+                <u>Riszky Riyadi</u><br>
+                <i><b>Kepala Toko</b></i>
             </td>
         </tr>
     </table>

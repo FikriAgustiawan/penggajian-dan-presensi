@@ -201,12 +201,12 @@ td
         </tr>
         <tr>
             <td style="text-align: center; vertical-align:bottom" height="100px">
-                <u>Fikri Agustiawan</u><br>
-                <i><b>HRD Manager</b></i>
+                <u>Teguh Fatorahman</u><br>
+                <i><b>Owner</b></i>
             </td>
             <td style="text-align: center; vertical-align:bottom">
-                <u>Risma Aprelia</u><br>
-                <i><b>Direktur</b></i>
+                <u>Riszky Riyadi</u><br>
+                <i><b>Kepala Toko</b></i>
             </td>
         </tr>
     </table>

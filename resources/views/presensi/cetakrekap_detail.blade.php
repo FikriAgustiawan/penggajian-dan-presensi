@@ -57,6 +57,24 @@ td
     height: 30px;
 }
 
+.tabelketerangan {
+            margin-top: 10px;
+            width: 20%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        .tabelketerangan tr td {
+            padding: 5px;
+            border: none
+        }
+
+        .kotakwarna {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+
 </style>
 
 </head>
@@ -228,6 +246,37 @@ td
             </tr>
         @endforeach
     </table>
+    
+     <!-- Keterangan Warna -->
+     <table class="tabelketerangan">
+        <tr>
+            <td>
+                <div class="kotakwarna" style="background-color: white; width: 18px; height: 18px; border: 1px solid black;"></div>
+              </td>
+              
+            <td>Hadir</td>
+        </tr>
+        <tr>
+            <td><div class="kotakwarna" style="background-color: #FF00FF;"></div></td>
+            <td>Izin</td>
+        </tr>
+        <tr>
+            <td><div class="kotakwarna" style="background-color: #34a1eb;"></div></td>
+            <td>Sakit</td>
+        </tr>
+        <tr>
+            <td><div class="kotakwarna" style="background-color: #B8860B;"></div></td>
+            <td>Cuti</td>
+        </tr>
+        <tr>
+            <td><div class="kotakwarna" style="background-color: #7FFF00;"></div></td>
+            <td>Alpa</td>
+        </tr>
+        <tr>
+            <td><div class="kotakwarna" style="background-color: red;"></div></td>
+            <td>Tidak Ada Data</td>
+        </tr>
+    </table>
 
     <table width="100%" style="margin-top: 100px">
         <tr>
@@ -236,12 +285,12 @@ td
         </tr>
         <tr>
             <td style="text-align: center; vertical-align:bottom" height="100px">
-                <u>Fikri Agustiawan</u><br>
-                <i><b>HRD Manager</b></i>
+                <u>Teguh Fatorahman</u><br>
+                <i><b>Owner</b></i>
             </td>
             <td style="text-align: center; vertical-align:bottom">
-                <u>Risma Aprelia</u><br>
-                <i><b>Direktur</b></i>
+                <u>Riszky Riyadi</u><br>
+                <i><b>Kepala Toko</b></i>
             </td>
         </tr>
     </table>
