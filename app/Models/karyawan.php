@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class Karyawan extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     protected $table = "karyawan";
     protected $primaryKey = "nik";
@@ -30,10 +31,6 @@ class Karyawan extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Relasi Karyawan ke Pengajuan Izin.
-     * Setiap karyawan bisa mengajukan banyak izin.
-     */
     public function pengajuanIzin()
     {
         return $this->hasMany(PengajuanIzin::class, 'nik', 'nik');

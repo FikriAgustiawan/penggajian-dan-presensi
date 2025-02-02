@@ -84,6 +84,10 @@ Route::get('/penggajian/slip/download', [UserPenggajianController::class, 'downl
 
 Route::group(['middleware' => ['auth:web', 'role:administrator|admin departemen']], function () {
     Route::get('/panel/dashboardadmin', [DashboardController::class, 'dashboardadmin']);
+     // Data Master Routes
+    Route::get('/karyawan', [KaryawanController::class, 'index']);
+    Route::get('/departemen', [DepartemenController::class, 'index']);
+    Route::get('/cuti', [CutiController::class, 'index']);
 
    // Karyawan
    Route::get('/karyawan', [KaryawanController::class, 'index']);
