@@ -147,8 +147,8 @@
         <!-- Header Section -->
         <div class="header">
             <img src="{{ request()->has('download') ? public_path('assets/img/logo_perusahaan.png') : asset('assets/img/logo_perusahaan.png') }}" alt="Logo Perusahaan" style="width: 60px;">
-            <h2>MAJU BERKAH TEKNOLOGI</h2>
-            <p>Ring-road Utara No 19, Jakarta</p>
+            <h2>MAJU BERJAYA TEKNOLOGI</h2>
+            <p>Jln. Perintis Kemerdekaan No.93F, Kecamatan Pulogadung, Jakarta Timur</p>
             <div class="divider"></div>
             <h3>SLIP GAJI BULAN {{ strtoupper(\Carbon\Carbon::create($tahun, $bulan)->translatedFormat('F')) }} {{ $tahun }}</h3>
         </div>
@@ -203,9 +203,9 @@
 
         <!-- Footer Section -->
         <div class="footer">
-            <p>Tangerang, {{ date('d F Y') }}</p>
-            <strong>Fikri</strong>
-            <span>(Manajer HR)</span>
+            <p>Jakarta, {{ date('d F Y') }}</p>
+            <strong>Riszky Riyadi</strong>
+            <span>(Kepala Toko)</span>
         </div>
     </div>
 

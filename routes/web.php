@@ -19,25 +19,15 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 
-// Rute untuk pengguna yang belum login (guest)
-Route::middleware(['guest:karyawan'])->group(function () {
-   Route::get('/', function () {
-       return view('auth.login');
-   })->name('login');
-   Route::post('/proseslogin', [AuthController::class, 'proseslogin']);
+Route::middleware(['guest:web,karyawan'])->group(function () {
+    Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 });
 
-Route::middleware(['guest:user'])->group(function () {
-   Route::get('/panel', function () {
-       return view('auth.loginadmin');
-   })->name('loginadmin');
-   Route::post('/prosesloginadmin', [AuthController::class, 'prosesloginadmin']);
-});
-
-// Rute untuk pengguna yang sudah login (auth)
-Route::middleware(['auth:karyawan'])->group(function () {
-   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-   Route::get('/proseslogout', [AuthController::class, 'proseslogout'])->name('logout');
+// Rute untuk pengguna yang sudah login
+Route::middleware(['auth:web,karyawan'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
    // Rute untuk presensi
    Route::get('/presensi/create', [PresensiController::class, 'create'])->name('presensi.create');
@@ -92,10 +82,8 @@ Route::get('/penggajian/slip/download', [UserPenggajianController::class, 'downl
 });
 
 
-// Route Yang Bisa Di Akses Oleh Administrator Dan Admin Departemen
-Route::group(['middleware' => ['role:administrator|admin departemen,user']], function (){
-   Route::get('/proseslogoutadmin', [AuthController::class, 'proseslogoutadmin']);
-   Route::get('/panel/dashboardadmin',[DashboardController::class, 'dashboardadmin']);
+Route::group(['middleware' => ['auth:web', 'role:administrator|admin departemen']], function () {
+    Route::get('/panel/dashboardadmin', [DashboardController::class, 'dashboardadmin']);
 
    // Karyawan
    Route::get('/karyawan', [KaryawanController::class, 'index']);
@@ -122,7 +110,7 @@ Route::group(['middleware' => ['role:administrator|admin departemen,user']], fun
 });
 
 // Route yang Bisa Diakses Oleh Administrator
-Route::group(['middleware' => ['role:administrator,user']], function (){
+Route::group(['middleware' => ['auth:web', 'role:administrator']], function () {
    
    Route::get('/penggajian', [PenggajianController::class, 'index']);
    Route::get('/penggajian/slip/{nik}/{bulan}/{tahun}', [PenggajianController::class, 'cetakSlip']);

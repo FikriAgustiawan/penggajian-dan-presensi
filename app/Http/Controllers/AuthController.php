@@ -8,35 +8,55 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function proseslogin(Request $request)
+    public function showLoginForm()
     {
-        if(Auth::guard('karyawan')->attempt(['nik' => $request->nik, 'password' => $request->password])) {
+        if (Auth::guard('web')->check() || Auth::guard('karyawan')->check()) {
+            if (Auth::guard('web')->check() && Auth::guard('web')->user()->hasRole('administrator')) {
+                return redirect('/panel/dashboardadmin');
+            }
             return redirect('/dashboard');
-        } else {
-            return redirect('/')->with(['warning' => 'NIK / Password Salah']);
         }
+        return view('auth.login');
     }
 
-    public function proseslogout(){
-        if(Auth::guard('karyawan')->check()){
-            Auth::guard('karyawan')->logout();
-            return redirect('/');
-        }
-    }
-
-    public function proseslogoutadmin(){
-        if(Auth::guard('user')->check()){
-            Auth::guard('user')->logout();
-            return redirect('/panel');
-        }
-    }
-
-    public function prosesloginadmin(Request $request)
+    public function login(Request $request)
     {
-        if(Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect('/panel/dashboardadmin');
-        } else {
-            return redirect('/panel')->with(['warning' => 'Username atau Password Salah']);
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        // Coba login sebagai admin
+        if(Auth::guard('web')->attempt(['email' => $request->username, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            if(Auth::guard('web')->user()->hasRole('administrator')) {
+                return redirect('/panel/dashboardadmin');
+            }
+            return redirect('/dashboard');
         }
+
+        // Coba login sebagai karyawan
+        if(Auth::guard('karyawan')->attempt(['nik' => $request->username, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect('/dashboard');
+        }
+
+        return redirect('/')->with(['warning' => 'Username atau Password Salah']);
+    }
+
+    public function logout(Request $request)
+    {
+        if(Auth::guard('web')->check()) {
+            Auth::guard('web')->logout();
+        }
+        
+        if(Auth::guard('karyawan')->check()) {
+            Auth::guard('karyawan')->logout();
+        }
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }
