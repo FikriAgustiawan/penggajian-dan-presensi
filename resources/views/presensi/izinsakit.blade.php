@@ -110,7 +110,7 @@
                             </th>
                             <th>Keterangan</th>
                             <th>Status Approve</th>
-                            @role('administrator','user')
+                            @role('administrator','web')
                             <th>Aksi</th>
                             @endrole
                         </tr>
@@ -155,7 +155,7 @@
                                     <span class="badge bg-warning">Pending</span>
                                     @endif
                                 </td>
-                                @role('administrator', 'user')
+                                @role('administrator', 'web')
                                 <td>
                                     @if ($d->status_approved==0)
                                     <a href="#" class="btn btn-sm btn-primary approve" kode_izin="{{ $d->kode_izin }}">

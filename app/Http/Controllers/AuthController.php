@@ -4,26 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showLoginForm()
-    {
-        // Cek apakah user sudah login
-        if (Auth::guard('web')->check() || Auth::guard('karyawan')->check()) {
-            // Jika admin, arahkan ke dashboard admin
-            if (Auth::guard('web')->check()) {
-                $user = Auth::guard('web')->user();
-                if($user && $user->hasRole('administrator')) {
-                    return redirect('/panel/dashboardadmin');
-                }
-            }
-            // Jika karyawan atau user biasa, arahkan ke dashboard
-            return redirect('/dashboard');
-        }
-        return view('auth.login');
-    }
+    // public function showLoginForm()
+    // {
+    //     if (Auth::guard('web')->check()) {
+    //         $isAdmin = DB::table('model_has_roles')
+    //             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+    //             ->where('model_has_roles.model_id', Auth::guard('web')->id())
+    //             ->where('roles.name', 'administrator')
+    //             ->exists();
+                
+    //         if ($isAdmin) {
+    //             return redirect('/panel/dashboardadmin');
+    //         }
+    //         return redirect('/dashboard');
+    //     }
+        
+    //     if (Auth::guard('karyawan')->check()) {
+    //         return redirect('/dashboard');
+    //     }
+
+    //     return view('auth.login');
+    // }
 
     public function login(Request $request)
     {
@@ -33,13 +39,17 @@ class AuthController extends Controller
                 'password' => 'required'
             ]);
 
-            // Coba login sebagai admin/user
+            // Coba login sebagai admin
             if(Auth::guard('web')->attempt(['email' => $request->username, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                $user = Auth::guard('web')->user();
                 
-                // Cek role administrator
-                if($user && $user->hasRole('administrator')) {
+                $isAdmin = DB::table('model_has_roles')
+                    ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                    ->where('model_has_roles.model_id', Auth::guard('web')->id())
+                    ->where('roles.name', 'administrator')
+                    ->exists();
+                    
+                if ($isAdmin) {
                     return redirect('/panel/dashboardadmin');
                 }
                 return redirect('/dashboard');
@@ -48,13 +58,6 @@ class AuthController extends Controller
             // Coba login sebagai karyawan
             if(Auth::guard('karyawan')->attempt(['nik' => $request->username, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                $karyawan = Auth::guard('karyawan')->user();
-                
-                // Assign role karyawan jika belum ada
-                if(!$karyawan->hasAnyRole()) {
-                    $karyawan->assignRole('karyawan');
-                }
-                
                 return redirect('/dashboard');
             }
 
@@ -67,7 +70,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            // Logout dari semua guard
             if(Auth::guard('web')->check()) {
                 Auth::guard('web')->logout();
             }
@@ -76,7 +78,6 @@ class AuthController extends Controller
                 Auth::guard('karyawan')->logout();
             }
 
-            // Invalidate session dan regenerate token
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 

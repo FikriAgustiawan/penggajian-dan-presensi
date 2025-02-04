@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,61 +10,84 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Redirect admin ke dashboard admin
+        if (Auth::guard('web')->check() && Auth::user()->hasRole('administrator')) {
+            return redirect('/panel/dashboardadmin');
+        }
+
+        // Untuk karyawan dan user non-admin
         $hariini = date("Y-m-d");
         $bulanini = date("m") * 1; //1 atau Januari
         $tahunini = date("Y"); //2024
         $nik = Auth::guard('karyawan')->user()->nik;
-        $presensihariini = DB::table('presensi')->where('nik',$nik)->where('tgl_presensi',$hariini)->first();
+        
+        // Ambil data presensi hari ini
+        $presensihariini = DB::table('presensi')
+            ->where('nik', $nik)
+            ->where('tgl_presensi', $hariini)
+            ->first();
+            
+        // Ambil histori bulan ini
         $historibulanini = DB::table('presensi')
-        ->select('presensi.*', 'keterangan', 'jam_kerja.*', 'doc_sid', 'nama_cuti')
-        ->leftJoin('jam_kerja', 'presensi.kode_jam_kerja', '=', 'jam_kerja.kode_jam_kerja')
-        ->leftJoin('pengajuan_izin','presensi.kode_izin', '=', 'pengajuan_izin.kode_izin')
-        ->leftJoin('master_cuti', 'pengajuan_izin.kode_cuti', '=', 'master_cuti.kode_cuti')
-        ->where('presensi.nik',$nik)
-        ->whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
-        ->whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
-        ->orderBy('tgl_presensi', 'desc')
-        ->get();
+            ->select('presensi.*', 'keterangan', 'jam_kerja.*', 'doc_sid', 'nama_cuti')
+            ->leftJoin('jam_kerja', 'presensi.kode_jam_kerja', '=', 'jam_kerja.kode_jam_kerja')
+            ->leftJoin('pengajuan_izin', 'presensi.kode_izin', '=', 'pengajuan_izin.kode_izin')
+            ->leftJoin('master_cuti', 'pengajuan_izin.kode_cuti', '=', 'master_cuti.kode_cuti')
+            ->where('presensi.nik', $nik)
+            ->whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
+            ->whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
+            ->orderBy('tgl_presensi', 'desc')
+            ->get();
 
+        // Ambil rekap presensi
         $rekappresensi = DB::table('presensi')
-        ->selectRaw('
-        SUM(IF(status="h",1,0)) as jmlhadir,
-        SUM(IF(status="i",1,0)) as jmlizin,
-        SUM(IF(status="s",1,0)) as jmlsakit,
-        SUM(IF(status="c",1,0)) as jmlcuti,
-        SUM(IF(jam_in > jam_masuk ,1,0)) as jmlterlambat
-        ')
-        ->leftjoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
-        ->where('nik',$nik)
-        ->whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
-        ->whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
-        ->first();
+            ->selectRaw('
+                SUM(IF(status="h",1,0)) as jmlhadir,
+                SUM(IF(status="i",1,0)) as jmlizin,
+                SUM(IF(status="s",1,0)) as jmlsakit,
+                SUM(IF(status="c",1,0)) as jmlcuti,
+                SUM(IF(jam_in > jam_masuk ,1,0)) as jmlterlambat
+            ')
+            ->leftjoin('jam_kerja', 'presensi.kode_jam_kerja', '=', 'jam_kerja.kode_jam_kerja')
+            ->where('nik', $nik)
+            ->whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
+            ->whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
+            ->first();
 
+        // Ambil leaderboard
         $leaderboard = DB::table('presensi')
-        ->join('karyawan','presensi.nik','=','karyawan.nik')
-        ->where('tgl_presensi',$hariini)
-        ->orderBy('jam_in')
-        ->get();
+            ->join('karyawan', 'presensi.nik', '=', 'karyawan.nik')
+            ->where('tgl_presensi', $hariini)
+            ->orderBy('jam_in')
+            ->get();
+
         $namabulan = ["","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
-        return view('dashboard.dashboard',compact('presensihariini','historibulanini','namabulan','bulanini','tahunini','rekappresensi','leaderboard'));
+        return view('dashboard.dashboard', compact(
+            'presensihariini',
+            'historibulanini',
+            'namabulan',
+            'bulanini',
+            'tahunini',
+            'rekappresensi',
+            'leaderboard'
+        ));
     }
 
     public function dashboardadmin()
     {
         $hariini = date("Y-m-d");
-
         $rekappresensi = DB::table('presensi')
-        ->selectRaw('
-        SUM(IF(status="h",1,0)) as jmlhadir,
-        SUM(IF(status="i",1,0)) as jmlizin,
-        SUM(IF(status="s",1,0)) as jmlsakit,
-        SUM(IF(status="c",1,0)) as jmlcuti,
-        SUM(IF(jam_in > jam_masuk ,1,0)) as jmlterlambat
-        ')
-        ->leftjoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
-        ->where('tgl_presensi', $hariini)
-        ->first();
+            ->selectRaw('
+                SUM(IF(status="h",1,0)) as jmlhadir,
+                SUM(IF(status="i",1,0)) as jmlizin,
+                SUM(IF(status="s",1,0)) as jmlsakit,
+                SUM(IF(status="c",1,0)) as jmlcuti,
+                SUM(IF(jam_in > jam_masuk ,1,0)) as jmlterlambat
+            ')
+            ->leftjoin('jam_kerja', 'presensi.kode_jam_kerja', '=', 'jam_kerja.kode_jam_kerja')
+            ->where('tgl_presensi', $hariini)
+            ->first();
         
         return view('dashboard.dashboardadmin', compact('rekappresensi'));
     }

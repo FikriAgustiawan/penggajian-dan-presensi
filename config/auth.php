@@ -1,40 +1,31 @@
 <?php
-
 return [
-
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
     ],
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-
-        'karyawan' => [ // Guard untuk karyawan
-            'driver' => 'session',
-            'provider' => 'karyawan', // Sesuaikan dengan provider "karyawan"
-        ],
-
-        'user' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
     ],
-
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-
-        'karyawan' => [ // Perbaiki nama provider
-            'driver' => 'eloquent',
-            'model' => App\Models\Karyawan::class, // Pastikan model ini ada
-        ],
+    'karyawan' => [
+        'driver' => 'session',
+        'provider' => 'karyawan',
     ],
+],
+
+'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class,
+    ],
+    'karyawan' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Karyawan::class,
+    ],
+],
 
     'passwords' => [
         'users' => [
@@ -46,5 +37,4 @@ return [
     ],
 
     'password_timeout' => 10800,
-
 ];

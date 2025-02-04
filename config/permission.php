@@ -3,7 +3,7 @@
 return [
 
     'models' => [
-        'user' => App\Models\Karyawan::class, // Ubah dari User ke Karyawan
+        'user' => App\Models\Karyawan::class, // Pastikan model ini benar
         'role' => Spatie\Permission\Models\Role::class,
         'permission' => Spatie\Permission\Models\Permission::class,
     ],
@@ -17,7 +17,7 @@ return [
     ],
 
     'column_names' => [
-        'model_morph_key' => 'nik', // Gunakan 'nik' sebagai primary key di model_has_roles
+        'model_morph_key' => 'model_id', // Ubah dari 'nik' ke 'model_id'
     ],
 
     'cache' => [
